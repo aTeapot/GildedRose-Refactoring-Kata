@@ -1,10 +1,9 @@
 class GildedRose
-
   def initialize(items)
     @items = items
   end
 
-  def update_quality()
+  def update_quality
     @items.each do |item|
       ItemMapper.update(item)
     end
@@ -20,7 +19,7 @@ class Item
     @quality = quality
   end
 
-  def to_s()
+  def to_s
     "#{@name}, #{@sell_in}, #{@quality}"
   end
 end

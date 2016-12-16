@@ -23,7 +23,7 @@ clearing :on
 #
 # and, you'll have to watch "config/Guardfile" instead of "Guardfile"
 
-guard :rspec, cmd: "bundle exec rspec" do
+guard :rspec, cmd: 'bundle exec rspec' do
   watch(%r{^spec/.+_spec\.rb$})
-  watch(%r{^gilded_rose.*\.rb$}) { "spec/gilded_rose_spec.rb" }
+  watch(%r{^gilded_rose.*\.rb$}) { 'spec/gilded_rose_spec.rb' }
 end

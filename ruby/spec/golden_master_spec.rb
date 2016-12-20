@@ -9,7 +9,7 @@ golden_master_lines = golden_master.split("\n")
 #gilded_rose_file = 'gilded_rose_refactored_1'
 gilded_rose_file = 'gilded_rose_refactored_2'
 
-current_output = `ruby #{root}/texttest_fixture.rb 100 #{gilded_rose_file}`
+current_output = `ruby "#{root}/texttest_fixture.rb" 100 #{gilded_rose_file}`
 current_output_lines = current_output.split("\n")
 
 lines_to_compare = [golden_master_lines.count, current_output_lines.count].max

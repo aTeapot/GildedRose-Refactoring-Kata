@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.3.0)
+    byebug (9.0.6)
     celluloid (0.16.0)
       timers (~> 4.0.0)
     coderay (1.1.0)
@@ -40,6 +41,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (3.4.2)
+      byebug (~> 9.0)
+      pry (~> 0.10)
     rainbow (2.1.0)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
@@ -77,6 +81,7 @@ PLATFORMS
 DEPENDENCIES
   guard
   guard-rspec
+  pry-byebug
   rspec
   rubocop (~> 0.46.0)
 

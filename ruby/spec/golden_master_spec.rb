@@ -7,7 +7,8 @@ golden_master_lines = golden_master.split("\n")
 
 # gilded_rose_file = 'gilded_rose'
 # gilded_rose_file = 'gilded_rose_refactored_1'
-gilded_rose_file = 'gilded_rose_refactored_2'
+# gilded_rose_file = 'gilded_rose_refactored_2'
+gilded_rose_file = 'gilded_rose_refactored_3'
 
 current_output = `ruby "#{root}/texttest_fixture.rb" 100 #{gilded_rose_file}`
 current_output_lines = current_output.split("\n")

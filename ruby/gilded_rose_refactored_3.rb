@@ -14,61 +14,69 @@ class ItemUpdate
   def initialize(item)
     @item = item
     @name = item.name
-    @quality = item.quality
+    @quality = GuardedQuality.new(item.quality)
     @sell_in = item.sell_in
   end
 
   def update
     if @name != 'Aged Brie' and @name != 'Backstage passes to a TAFKAL80ETC concert'
-      if @quality > 0
-        if @name != 'Sulfuras, Hand of Ragnaros'
-          @quality = @quality - 1
-        end
+      if @name != 'Sulfuras, Hand of Ragnaros'
+        @quality.value -= 1
       end
     else
-      if @quality < 50
-        @quality = @quality + 1
-        if @name == 'Backstage passes to a TAFKAL80ETC concert'
-          if @sell_in < 11
-            if @quality < 50
-              @quality = @quality + 1
-            end
-          end
-          if @sell_in < 6
-            if @quality < 50
-              @quality = @quality + 1
-            end
-          end
+      @quality.value += 1
+      if @name == 'Backstage passes to a TAFKAL80ETC concert'
+        if @sell_in <= 10
+          @quality.value += 1
+        end
+        if @sell_in <= 5
+          @quality.value += 1
         end
       end
     end
     if @name != 'Sulfuras, Hand of Ragnaros'
-      @sell_in = @sell_in - 1
+      @sell_in -= 1
     end
     if @sell_in < 0
       if @name != 'Aged Brie'
         if @name != 'Backstage passes to a TAFKAL80ETC concert'
-          if @quality > 0
-            if @name != 'Sulfuras, Hand of Ragnaros'
-              @quality = @quality - 1
-            end
+          if @name != 'Sulfuras, Hand of Ragnaros'
+            @quality.value -= 1
           end
         else
-          @quality = @quality - @quality
+          @quality.value = 0
         end
       else
-        if @quality < 50
-          @quality = @quality + 1
-        end
+        @quality.value += 1
       end
     end
 
     update_item
   end
 
+  private
+
   def update_item
     @item.sell_in = @sell_in
-    @item.quality = @quality
+    @item.quality = @quality.value
+  end
+
+  class GuardedQuality
+    attr_reader :value
+
+    def initialize(value)
+      @value = value
+    end
+
+    def value=(value)
+      if value < 0
+        @value = 0
+      elsif value > 50
+        @value = 50
+      else
+        @value = value
+      end
+    end
   end
 end
 

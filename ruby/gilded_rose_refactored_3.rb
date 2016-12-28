@@ -30,6 +30,18 @@ class ItemUpdate
   end
 
   def update
+    update_sellin
+    update_quality
+    update_item
+  end
+
+  private
+
+  def update_sellin
+    @sell_in -= 1
+  end
+
+  def update_quality
     if @name != 'Aged Brie' and @name != 'Backstage passes to a TAFKAL80ETC concert'
       if @name != 'Sulfuras, Hand of Ragnaros'
         @quality.value -= 1
@@ -37,16 +49,13 @@ class ItemUpdate
     else
       @quality.value += 1
       if @name == 'Backstage passes to a TAFKAL80ETC concert'
-        if @sell_in <= 10
+        if @sell_in < 10
           @quality.value += 1
         end
-        if @sell_in <= 5
+        if @sell_in < 5
           @quality.value += 1
         end
       end
-    end
-    if @name != 'Sulfuras, Hand of Ragnaros'
-      @sell_in -= 1
     end
     if @sell_in < 0
       if @name != 'Aged Brie'
@@ -61,11 +70,7 @@ class ItemUpdate
         @quality.value += 1
       end
     end
-
-    update_item
   end
-
-  private
 
   def update_item
     @item.sell_in = @sell_in
@@ -100,7 +105,11 @@ class BackstagePassesUpdate < ItemUpdate
 end
 
 class SulfurasUpdate < ItemUpdate
+  private
 
+  def update_sellin
+    # don't update sell_in
+  end
 end
 
 class Item

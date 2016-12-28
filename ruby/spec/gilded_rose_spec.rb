@@ -133,6 +133,19 @@ describe GildedRose do
 
           expect(item.quality).to eq (quality - (2 * n))
         end
+
+        it 'doesnt allow negative quality' do
+          n = 4
+          quality = 5
+          sell_in = -1
+
+          item = Item.new('foo', sell_in, quality)
+          gilded_rose = described_class.new([item])
+
+          n.times { gilded_rose.update_quality }
+
+          expect(item.quality).to eq 0
+        end
       end
     end
 
@@ -177,7 +190,7 @@ describe GildedRose do
 
         it 'is never more than 50' do
           n = 2
-          item = Item.new('Aged Brie', sell_in = n, quality = 49)
+          item = Item.new('Aged Brie', sell_in = 0, quality = 49)
           items = [item]
           gilded_rose = described_class.new(items)
 
@@ -353,7 +366,7 @@ describe GildedRose do
           expect(item.quality).to eq 0
         end
 
-        it 'lowers quality value twice as fast after N days and four times as fast when expired' do
+        it 'lowers quality value by -2 and by -4 when expired' do
           n = 5
           quality = 15
           item = Item.new('Conjured Mana Cake', sell_in = 2, quality = quality)

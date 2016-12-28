@@ -5,24 +5,24 @@ class GildedRose
 
   def update_quality
     @items.each do |item|
-      item_update(item).update
+      item_updater(item).update
     end
   end
 
-  def item_update(item)
+  def item_updater(item)
     klass =
       case item.name
-      when 'Aged Brie'then BrieUpdate
-      when 'Backstage passes to a TAFKAL80ETC concert' then BackstagePassesUpdate
-      when 'Sulfuras, Hand of Ragnaros' then SulfurasUpdate
-      when 'Conjured Mana Cake' then ConjuredUpdate
-      else ItemUpdate
+      when 'Aged Brie' then BrieUpdater
+      when 'Backstage passes to a TAFKAL80ETC concert' then BackstagePassesUpdater
+      when 'Sulfuras, Hand of Ragnaros' then SulfurasUpdater
+      when 'Conjured Mana Cake' then ConjuredUpdater
+      else ItemUpdater
       end
     klass.new(item)
   end
 end
 
-class ItemUpdate
+class ItemUpdater
   def initialize(item)
     @item = item
     @quality = GuardedQuality.new(item.quality)
@@ -82,7 +82,7 @@ class ItemUpdate
   end
 end
 
-class BrieUpdate < ItemUpdate
+class BrieUpdater < ItemUpdater
   private
 
   def quality_modifier
@@ -90,7 +90,7 @@ class BrieUpdate < ItemUpdate
   end
 end
 
-class BackstagePassesUpdate < ItemUpdate
+class BackstagePassesUpdater < ItemUpdater
   private
 
   def update_quality
@@ -106,7 +106,7 @@ class BackstagePassesUpdate < ItemUpdate
   end
 end
 
-class SulfurasUpdate < ItemUpdate
+class SulfurasUpdater < ItemUpdater
   private
 
   def update_quality
@@ -118,7 +118,7 @@ class SulfurasUpdate < ItemUpdate
   end
 end
 
-class ConjuredUpdate < ItemUpdate
+class ConjuredUpdater < ItemUpdater
   private
 
   def quality_modifier

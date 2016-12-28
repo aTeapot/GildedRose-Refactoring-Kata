@@ -5,8 +5,19 @@ class GildedRose
 
   def update_quality
     @items.each do |item|
-      ItemUpdate.new(item).update
+      item_update(item).update
     end
+  end
+
+  def item_update(item)
+    klass =
+      case item.name
+      when 'Aged Brie'then BrieUpdate
+      when 'Backstage passes to a TAFKAL80ETC concert' then BackstagePassesUpdate
+      when 'Sulfuras, Hand of Ragnaros' then SulfurasUpdate
+      else ItemUpdate
+      end
+    klass.new(item)
   end
 end
 
@@ -78,6 +89,18 @@ class ItemUpdate
       end
     end
   end
+end
+
+class BrieUpdate < ItemUpdate
+
+end
+
+class BackstagePassesUpdate < ItemUpdate
+
+end
+
+class SulfurasUpdate < ItemUpdate
+
 end
 
 class Item

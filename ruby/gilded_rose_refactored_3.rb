@@ -24,7 +24,6 @@ end
 class ItemUpdate
   def initialize(item)
     @item = item
-    @name = item.name
     @quality = GuardedQuality.new(item.quality)
     @sell_in = item.sell_in
   end
@@ -42,33 +41,18 @@ class ItemUpdate
   end
 
   def update_quality
-    if @name != 'Aged Brie' and @name != 'Backstage passes to a TAFKAL80ETC concert'
-      if @name != 'Sulfuras, Hand of Ragnaros'
-        @quality.value -= 1
-      end
+    @quality.value += expired_modify(quality_modifier)
+  end
+
+  def quality_modifier
+    -1
+  end
+
+  def expired_modify(diff)
+    if @sell_in >= 0
+      diff
     else
-      @quality.value += 1
-      if @name == 'Backstage passes to a TAFKAL80ETC concert'
-        if @sell_in < 10
-          @quality.value += 1
-        end
-        if @sell_in < 5
-          @quality.value += 1
-        end
-      end
-    end
-    if @sell_in < 0
-      if @name != 'Aged Brie'
-        if @name != 'Backstage passes to a TAFKAL80ETC concert'
-          if @name != 'Sulfuras, Hand of Ragnaros'
-            @quality.value -= 1
-          end
-        else
-          @quality.value = 0
-        end
-      else
-        @quality.value += 1
-      end
+      diff * 2
     end
   end
 
@@ -97,15 +81,35 @@ class ItemUpdate
 end
 
 class BrieUpdate < ItemUpdate
+  private
 
+  def quality_modifier
+    1
+  end
 end
 
 class BackstagePassesUpdate < ItemUpdate
+  private
 
+  def update_quality
+    if @sell_in < 0
+      @quality.value = 0
+    elsif @sell_in < 5
+      @quality.value += 3
+    elsif @sell_in < 10
+      @quality.value += 2
+    else
+      @quality.value += 1
+    end
+  end
 end
 
 class SulfurasUpdate < ItemUpdate
   private
+
+  def update_quality
+    #don't update quality
+  end
 
   def update_sellin
     # don't update sell_in

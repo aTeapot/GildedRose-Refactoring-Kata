@@ -69,13 +69,14 @@ class ItemUpdate
     end
 
     def value=(value)
-      if value < 0
-        @value = 0
-      elsif value > 50
-        @value = 50
-      else
-        @value = value
-      end
+      @value =
+        if value < 0
+          0
+        elsif value > 50
+          50
+        else
+          value
+        end
     end
   end
 end
@@ -108,7 +109,7 @@ class SulfurasUpdate < ItemUpdate
   private
 
   def update_quality
-    #don't update quality
+    # don't update quality
   end
 
   def update_sellin

@@ -15,6 +15,7 @@ class GildedRose
       when 'Aged Brie'then BrieUpdate
       when 'Backstage passes to a TAFKAL80ETC concert' then BackstagePassesUpdate
       when 'Sulfuras, Hand of Ragnaros' then SulfurasUpdate
+      when 'Conjured Mana Cake' then ConjuredUpdate
       else ItemUpdate
       end
     klass.new(item)
@@ -114,6 +115,14 @@ class SulfurasUpdate < ItemUpdate
 
   def update_sellin
     # don't update sell_in
+  end
+end
+
+class ConjuredUpdate < ItemUpdate
+  private
+
+  def quality_modifier
+    -2
   end
 end
 
